@@ -286,4 +286,64 @@ describe('Webapp generator test', function() {
       done();
     });
   });
+  it('grunt-couchapp is added to package.json if selected', function(done) {
+    var expected = /couchapp/g,
+      file = 'package.json';
+
+    helpers.mockPrompt(this.webapp, {
+      couchapp: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+  it('couchapp is not added to package.json if not selected', function(done) {
+    var expected = /autoprefixer/g,
+      file = 'package.json';
+
+    helpers.mockPrompt(this.webapp, {
+      couchapp: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+  it('creates couchapp in couchapp mode', function(done) {
+    var expected = /couchapp/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      couchapp: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+  it('don\'t creates couchapp in couchapp mode', function(done) {
+    var expected = /couchapp/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      couchapp: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
 });

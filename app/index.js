@@ -64,6 +64,11 @@ JadeGenerator.prototype.askFor = function askFor() {
       name: 'jquery',
       message: 'Do you like to use jQuery',
       default: true
+    }, {
+      type: 'confirm',
+      name: 'couchapp',
+      message: 'Do you like to use couchapp',
+      default: false
     }
   ];
 
@@ -73,6 +78,7 @@ JadeGenerator.prototype.askFor = function askFor() {
     this.autoprefixer = props.autoprefixer;
     this.isPrivate = props.isPrivate;
     this.jquery = props.jquery;
+    this.couchapp = props.couchapp;
 
     cb();
   }.bind(this));
