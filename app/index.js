@@ -64,6 +64,11 @@ JadeGenerator.prototype.askFor = function askFor() {
       name: 'jquery',
       message: 'Do you like to use jQuery',
       default: true
+    }, {
+      type: 'confirm',
+      name: 'config',
+      message: 'Do you want to include a config ?',
+      default: false
     }
   ];
 
@@ -73,6 +78,7 @@ JadeGenerator.prototype.askFor = function askFor() {
     this.autoprefixer = props.autoprefixer;
     this.isPrivate = props.isPrivate;
     this.jquery = props.jquery;
+    this.config = props.config;
 
     cb();
   }.bind(this));
@@ -112,6 +118,14 @@ JadeGenerator.prototype.projectFiles = function projectFiles() {
   }
 
   this.copy('_main.js', 'app/scripts/main.js');
+};
+JadeGenerator.prototype.configFiles = function configFiles() {
+  console.log(this.config);
+  if (!this.config) {
+    return;
+  }
+  this.copy('_config.js', 'develop_config.js');
+  this.copy('_config.js', 'build_config.js');
 };
 
 JadeGenerator.prototype.install = function() {

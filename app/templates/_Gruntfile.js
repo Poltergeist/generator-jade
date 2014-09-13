@@ -259,7 +259,21 @@ module.exports = function(grunt) {
         }]
       }
     },
-    copy: {
+    copy: {<% if (config === true) { %>
+      configDevelop: {
+        files: [{
+          cwd: './',
+          dest: '<%%= folders.tmp %>/scripts/config.js',
+          src: 'develop_config.js'
+        }]
+      },
+      configBuild: {
+        files: [{
+          cwd: './',
+          dest: '<%%= folders.dist %>/scripts/config.js',
+          src: 'build_config.js'
+        }]
+      },<% } %>
       dist: {
         files: [{
           expand: true,
@@ -342,7 +356,8 @@ module.exports = function(grunt) {
 
     grunt.task.run([
       'clean:server',
-      'jade',
+      'jade',<% if (config) { %>
+      'copy:configDevelop',<% } %>
       'concurrent:server',
       <% if (autoprefixer) { %>'autoprefixer',<% } %>
       'connect:server',
@@ -360,7 +375,9 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'jade',
-    'copy:js',
+    'copy'
+    'copy:js',<% if (config) { %>
+    'copy:configBuild',<% } %>
     'copy:css',
     'useminPrepare',
     'concurrent:dist',

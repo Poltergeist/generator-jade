@@ -286,4 +286,200 @@ describe('Webapp generator test', function() {
       done();
     });
   });
+
+  it('creates expected files in config mode', function(done) {
+    var expected = [
+      'develop_config.js',
+      'build_config.js'
+    ];
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFile(expected);
+      done();
+    });
+  });
+
+  it('doesn\'t creates expected files in config mode', function(done) {
+    var expected = [
+      'develop_config.js',
+      'build_config.js'
+    ];
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFile(expected);
+      done();
+    });
+  });
+
+  it('configBuild is not added to the Gruntfile if selected', function(done) {
+    var expected = /configBuild:/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('configBuild is added to Gruntfile if selected', function(done) {
+    var expected = /configBuild:/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+  it('configDevelop is not added to the Gruntfile if selected', function(done) {
+    var expected = /configDevelop:/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('configDevelop is added to Gruntfile if selected', function(done) {
+    var expected = /configDevelop:/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is not added to the watch task if selected', function(done) {
+    var expected = /copy:configDevelop/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is not added to the buil task if selected', function(done) {
+    var expected = /copy:configBuild/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is added to the watch task if selected', function(done) {
+    var expected = /copy:configDevelop/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is added to the build task if selected', function(done) {
+    var expected = /copy:configBuild/g,
+      file = 'Gruntfile.js';
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is not added to layout if selected', function(done) {
+    var expected = /config\.js/g,
+      file = 'app/jade/layouts/_default.jade';
+
+    helpers.mockPrompt(this.webapp, {
+      config: false
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    this.webapp.run({}, function() {
+      helpers.assertNoFileContent(file,expected);
+      done();
+    });
+  });
+
+  it('config is added to layout if selected', function(done) {
+    var expected = /config\.js/g,
+      file = 'app/jade/layouts/_default.jade';
+
+    helpers.mockPrompt(this.webapp, {
+      config: true
+    });
+
+    this.webapp.options['skip-install'] = true;
+
+    console.log('test');
+    this.webapp.run({}, function() {
+      helpers.assertFileContent(file,expected);
+      done();
+    });
+  });
 });

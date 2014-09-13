@@ -24,5 +24,8 @@ html(lang="en")
     <% if (jquery === true) { %>
     script(src='/bower_components/jquery/dist/jquery.js')
     <% } %>
+    <% if (config === true) { %>
+    script(src='/script/config.js')
+    <% } %>
     script(src='/scripts/main.js')
     // endbuild
